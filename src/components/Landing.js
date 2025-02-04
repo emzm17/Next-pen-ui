@@ -70,7 +70,7 @@ const Landing = () => {
     // console.log(formData);
     const options = {
       method: "POST",
-      url: "http://localhost:8081/api/v1/",
+      url: process.env.REACT_APP_API_URL,
       data: formData,
     };
 
@@ -105,13 +105,13 @@ const Landing = () => {
 
   const checkStatus = async (token) => {
     try {
-      const { data } = await axios.get(`http://localhost:8081/api/v1/${token}`);
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}${token}`);
       const statusId = data.data.statusId;
       const statusMessage = data.data.status;
 
       if (statusId === 5) {
         // Fetch additional details when statusId is 5
-        const resultResponse = await axios.get(`http://localhost:8081/api/v1/${token}/4`);
+        const resultResponse = await axios.get(`${process.env.REACT_APP_API_URL}${token}/4`);
         setProcessing(false);
         setOutputDetails(resultResponse.data.data);
         return;
@@ -190,7 +190,7 @@ const Landing = () => {
       />
 
       <a
-        href="https://github.com/manuarora700/react-code-editor"
+        href="https://github.com/emzm17/Next-pen-ui"
         title="Fork me on GitHub"
         class="github-corner"
         target="_blank"
