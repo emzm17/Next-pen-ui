@@ -61,13 +61,13 @@ const Landing = () => {
   };
   const handleCompile = () => {
     setProcessing(true);
+
     const formData = {
       language: language.name,
-      // encode source code in base64
-      // source_code: btoa(code),
-      content: btoa(code),
+      content: btoa(code), // Encode source code in base64
+      input: btoa(customInput), // Include custom input in base64
     };
-    // console.log(formData);
+
     const options = {
       method: "POST",
       url: process.env.REACT_APP_API_URL,
@@ -80,6 +80,7 @@ const Landing = () => {
         console.log("res.data", response.data);
         const token = response.data.data.projectId;
         console.log(token);
+
         // Check status after 10 seconds
         setTimeout(() => {
           checkStatus(token);
@@ -87,12 +88,11 @@ const Landing = () => {
       })
       .catch((err) => {
         let error = err.response ? err.response.data : err;
-        // get error status
-        let status = err.response.status;
+        let status = err.response?.status;
         console.log("status", status);
+
         if (status === 429) {
           console.log("too many requests", status);
-
           showErrorToast(
             `Quota of 100 requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
             10000
